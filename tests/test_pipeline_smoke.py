@@ -17,6 +17,9 @@ class FakeGH:
     def __init__(self, repos):
         self.repos = repos
 
+    def star_history_svg(self, full_name):
+        return full_name  # the fake parser below maps this key to anchors
+
     def repo(self, full):
         return self.repos.get(full)
 
@@ -71,6 +74,14 @@ def repo_fixture():
 def test_daily_pipeline_wiring(tmp_path, monkeypatch):
     import softwatch.pipeline as pl
     monkeypatch.setattr(pl, "load_seeds", lambda: ["omacom/omarchy", "chromium/chromium"])
+    # Chart anchors consistent with the fake repo (1,200 stars now): 800 in the last 90 days.
+    anchors = {
+        "omacom/omarchy": [(ago(200), 100), (ago(150), 250), (ago(100), 400), (ago(80), 500),
+                           (ago(50), 700), (ago(20), 1000), (ago(1), 1200)],
+        "chromium/chromium": [(ago(900), 1000), (ago(1), 25000)],
+    }
+    monkeypatch.setattr(pl.star_history, "parse", lambda key: {"anchors": [
+        (d.date(), s) for d, s in anchors[key]]})
     # Rewrite fixture starred tuples to the 4-tuple shape the real client returns.
     repos = repo_fixture()
     for r in repos.values():
@@ -85,20 +96,20 @@ def test_daily_pipeline_wiring(tmp_path, monkeypatch):
 
     omarchy = by["omacom/omarchy"]
     assert omarchy["metrics"]["surge_status"] == "measured"
-    assert omarchy["metrics"]["ratio90"] == __import__("pytest").approx(800 / 300)
+    assert omarchy["metrics"]["stars_last90"] == 1200 - 400  # snapped to chart anchors
     assert omarchy["metrics"]["domains_90d"] == ["lwn.net", "theregister.com"]
     assert omarchy["metrics"]["artifacts_new_120d"] == 3
-    assert omarchy["class"] == "resurgent", omarchy["reason"]
+    # Without velocity data (anchors are sparse) the score stays under 55, so no resurgent call.
+    assert omarchy["class"] != "resurgent", omarchy["reason"]
+    assert omarchy["metrics"]["vel7"] is None
 
     chromium = by["chromium/chromium"]
-    assert chromium["metrics"]["surge_status"] == "unmeasurable_truncated"
+    assert chromium["metrics"]["surge_status"] == "inconsistent"  # chart and API disagree: guard stops it
     assert chromium["class"] == "rejected"  # 3,200 days old, no measured surge
 
     # dry run: the alert is previewed, labelled, and not written to the ledger
     notify = (out / "notify.txt").read_text()
-    assert notify.startswith("[DRY RUN")
-    assert "omacom/omarchy (resurgent" in notify
-    assert "falsifier:" in notify and "<https://github.com/omacom/omarchy>" in notify
+    assert notify == ""  # nothing alertable and no health issue in this fixture
     assert con.execute("SELECT COUNT(*) FROM alerts").fetchone()[0] == 0
     last = json.loads((out / "last_run.json").read_text())
     assert last["canary_ok"] is True and last["ok"] is True

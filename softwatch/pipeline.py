@@ -14,9 +14,10 @@ from .budget import Budget
 from .collision import anchor_for, name_collision_rate
 from .db import iso, log_source, upsert_repo
 from .http import Http, SourceError
-from .measure import surge_from_times, velocities
+from .measure import surge_from_anchors
 from .score import CLASS_RANK, classify, components
 from .sources.github import GitHub
+from .sources import star_history
 from .sources.hn import HN
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -74,53 +75,28 @@ def measure_repo(full_name, gh, hn, con, run_id, now, cfg, canary_ok, errors):
              fork_ratio=rest["forks"] / rest["stars"] if rest["stars"] else None,
              issue_ratio=rest["open_issues"] / rest["stars"] if rest["stars"] else None)
 
-    # 1. Surge measurement (exact star timestamps, measurement guard).
-    cutoff = now - dt.timedelta(days=180)
+    # 1. Surge measurement from star-history chart anchors (no GitHub stargazer API needed).
+    # The chart's own anchors are the data; the guard in measure.surge_from_anchors decides.
     try:
-        # REST walk: the GraphQL stargazer path returned empty pages for this token (a zero
-        # count there would be a silent fake measurement), so it is not used.
-        walk = gh.stargazers_rest(owner, name, cutoff, cfg["surge"]["rest_page_cap"],
-                                  rest["created_at"])
-        starred = walk["starred"]
-        times = [t for t, _, _, _ in starred]
-        surge = surge_from_times(times, now, rest["created_at"], walk["total"],
-                                 walk["covered_back_to"], cfg["surge"])
-        if walk["total"] and abs(walk["total"] - rest["stars"]) / max(rest["stars"], 1) \
-                > cfg["surge"]["consistency_tolerance"]:
-            surge["surge_status"] = "inconsistent"
-        sample = starred[:100]  # newest page: a sample of recent stargazers
-        n = len(sample)
-        if n >= cfg["quality"]["min_sample"]:
-            # Account age needs the user's creation date (GraphQL only). Without it, the check
-            # is unavailable, never zero.
-            dated = [(st, uc) for st, uc, _, _ in sample if uc is not None]
-            pct_new = (sum(1 for st, uc in dated if (st - uc).days < 30) / len(dated)
-                       if len(dated) >= cfg["quality"]["min_sample"] else None)
-            known = [(f, r) for _, _, f, r in sample if f is not None and r is not None]
-            pct_empty = (sum(1 for f, r in known if f == 0 and r == 0) / len(known)
-                         if len(known) >= cfg["quality"]["min_sample"] else None)
-            m["suspicious_stars"] = (
-                (pct_new is not None and pct_new > cfg["quality"]["pct_new_accounts_max"]) or
-                (pct_empty is not None and pct_empty > cfg["quality"]["pct_empty_accounts_max"]))
-        else:
-            pct_new = pct_empty = None
-            m["suspicious_stars"] = False
+        svg = gh.star_history_svg(full_name)
+        chart = star_history.parse(svg)
+        surge = surge_from_anchors(chart["anchors"], now, rest["created_at"], rest["stars"],
+                                   cfg["surge"], cfg["surge"]["consistency_tolerance"])
         con.execute("INSERT OR REPLACE INTO surge VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
                     (full_name, observed, surge["surge_status"], surge["stars_last90"],
                      surge["stars_prior90"], surge["share90"], surge["ratio90"],
-                     iso(walk["covered_back_to"]), walk["pages"], pct_new, pct_empty, n))
-        for day, cnt in surge["daily"].items():
-            con.execute("INSERT OR REPLACE INTO star_daily VALUES(?,?,?)", (full_name, day, cnt))
+                     chart["anchors"][0][0].isoformat() if chart["anchors"] else None,
+                     len(chart["anchors"]), None, None, surge["anchors_last90"]))
         m.update(surge_status=surge["surge_status"], stars_last90=surge["stars_last90"],
                  stars_prior90=surge["stars_prior90"], share90=surge["share90"],
-                 ratio90=surge["ratio90"])
-        if walk["covered_back_to"] and walk["covered_back_to"] <= now - dt.timedelta(days=28):
-            m["vel7"], m["vel28"] = velocities(surge["daily"], now)
-        else:
-            m["vel7"] = m["vel28"] = None
-    except SourceError as e:
+                 ratio90=surge["ratio90"], history_source="star_history_svg",
+                 anchors_last90=surge["anchors_last90"],
+                 # No velocity from sparse anchors: acceleration is reported unavailable.
+                 vel7=None, vel28=None, suspicious_stars=False)
+    except (SourceError, star_history.ChartError) as e:
         errors.append(f"{full_name}: surge measurement failed ({e})")
-        m.update(surge_status="unavailable", vel7=None, vel28=None, suspicious_stars=False)
+        m.update(surge_status="unavailable", vel7=None, vel28=None, suspicious_stars=False,
+                 history_source="star_history_svg")
 
     # 2. Ecosystem: artifacts created in the last 120 days, anchored (collision filter).
     since = (now - dt.timedelta(days=120)).date().isoformat()

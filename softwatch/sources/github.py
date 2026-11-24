@@ -165,6 +165,15 @@ class GitHub:
         return {"total": total, "created_at": created_at, "starred": starred,
                 "covered_back_to": covered, "pages": pages}
 
+    def star_history_svg(self, full_name):
+        """Raw star-history chart. Public, no token, paced to be polite."""
+        r = self.http.get("https://api.star-history.com/svg",
+                          params={"repos": full_name, "type": "Date"},
+                          key="star_history", gap=2.0, timeout=(10, 60))
+        if r.status_code != 200 or "<svg" not in r.text[:500]:
+            raise SourceError(f"star-history {full_name}: HTTP {r.status_code}")
+        return r.text
+
     def search_repos(self, q, per_page=100):
         """Returns (total_count, items). Search is rate limited, so it is paced."""
         self.budget.spend("github_rest")

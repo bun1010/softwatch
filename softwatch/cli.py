@@ -10,6 +10,7 @@ from pathlib import Path
 
 from .config import load as load_config
 from .db import connect, utcnow
+from .notify import telegram
 from .pipeline import ROOT, run_daily
 
 OUT = ROOT / "out"
@@ -37,6 +38,10 @@ def cmd_daily(args):
         raise
     print(f"measured {len(res['results'])} repos, alerts {len(res['alerts'])}, "
           f"errors {len(res['errors'])}")
+    text = (OUT / "notify.txt").read_text()
+    status = telegram.send(text, os.environ.get("TELEGRAM_BOT_TOKEN", ""),
+                           os.environ.get("TELEGRAM_CHAT_ID", ""))
+    print(f"telegram: {status}")
     return 0
 
 
