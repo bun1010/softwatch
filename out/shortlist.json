@@ -12,10 +12,11 @@
       "confirmation": 0.0
     },
     "flags": [
-      "low_volume"
+      "velocity_unavailable",
+      "acceleration_unavailable"
     ],
-    "surge_status": "too_young",
-    "stars": 18437,
+    "surge_status": "unavailable",
+    "stars": 18446,
     "ratio90": null,
     "share90": null,
     "artifacts_new_120d": 108,
@@ -34,10 +35,10 @@
       "confirmation": 0.0
     },
     "flags": [
-      "low_volume",
-      "unmeasurable_no_prior"
+      "velocity_unavailable",
+      "acceleration_unavailable"
     ],
-    "surge_status": "unmeasurable_no_prior",
+    "surge_status": "unavailable",
     "stars": 11249,
     "ratio90": null,
     "share90": null,
@@ -57,10 +58,10 @@
       "confirmation": 0.0
     },
     "flags": [
-      "low_volume",
-      "unmeasurable_no_prior"
+      "velocity_unavailable",
+      "acceleration_unavailable"
     ],
-    "surge_status": "unmeasurable_no_prior",
+    "surge_status": "unavailable",
     "stars": 6781,
     "ratio90": null,
     "share90": null,
@@ -80,10 +81,10 @@
       "confirmation": 0.0
     },
     "flags": [
-      "low_volume",
-      "unmeasurable_no_prior"
+      "velocity_unavailable",
+      "acceleration_unavailable"
     ],
-    "surge_status": "unmeasurable_no_prior",
+    "surge_status": "unavailable",
     "stars": 265764,
     "ratio90": null,
     "share90": null,
@@ -103,11 +104,11 @@
       "confirmation": 0.0
     },
     "flags": [
-      "low_volume",
-      "unmeasurable_no_prior"
+      "velocity_unavailable",
+      "acceleration_unavailable"
     ],
-    "surge_status": "unmeasurable_no_prior",
-    "stars": 14792,
+    "surge_status": "unavailable",
+    "stars": 14793,
     "ratio90": null,
     "share90": null,
     "artifacts_new_120d": 69,
@@ -126,10 +127,11 @@
       "confirmation": 0.0
     },
     "flags": [
-      "low_volume"
+      "velocity_unavailable",
+      "acceleration_unavailable"
     ],
-    "surge_status": "too_young",
-    "stars": 31320,
+    "surge_status": "unavailable",
+    "stars": 31322,
     "ratio90": null,
     "share90": null,
     "artifacts_new_120d": 101,
@@ -148,10 +150,10 @@
       "confirmation": 0.0
     },
     "flags": [
-      "low_volume",
-      "unmeasurable_no_prior"
+      "velocity_unavailable",
+      "acceleration_unavailable"
     ],
-    "surge_status": "unmeasurable_no_prior",
+    "surge_status": "unavailable",
     "stars": 32856,
     "ratio90": null,
     "share90": null,

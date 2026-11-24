@@ -1,15 +1,33 @@
 {
-  "run_id": "20261124T1133",
-  "finished_at": "2026-11-24T11:33:15Z",
+  "run_id": "20261124T1137",
+  "finished_at": "2026-11-24T11:37:29Z",
   "ok": true,
   "canary_ok": true,
-  "canary_value": 141,
+  "canary_value": 140,
   "repos_measured": 17,
   "alerts": [],
   "budget_used": {
-    "github_rest": 49,
-    "github_graphql": 17,
+    "github_rest": 66,
+    "github_graphql": 0,
     "hn": 18
   },
-  "errors": []
+  "errors": [
+    "AstrBotDevs/AstrBot: surge measurement failed (stargazers AstrBotDevs/AstrBot: HTTP 404)",
+    "BaaRai/ARTEX: surge measurement failed (stargazers BaaRai/ARTEX: HTTP 404)",
+    "CyberTimon/RapidRAW: surge measurement failed (stargazers CyberTimon/RapidRAW: HTTP 404)",
+    "Gaurav-Gosain/tuios: surge measurement failed (stargazers Gaurav-Gosain/tuios: HTTP 404)",
+    "JetBrains/intellij-community: surge measurement failed (stargazers JetBrains/intellij-community: HTTP 404)",
+    "NousResearch/hermes-agent: surge measurement failed (stargazers NousResearch/hermes-agent: HTTP 404)",
+    "backnotprop/plannotator: surge measurement failed (stargazers backnotprop/plannotator: HTTP 404)",
+    "chromium/chromium: surge measurement failed (stargazers chromium/chromium: HTTP 404)",
+    "hypit-ai/hypit: surge measurement failed (stargazers hypit-ai/hypit: HTTP 404)",
+    "meta/astryx: surge measurement failed (stargazers meta/astryx: HTTP 404)",
+    "metabase/metabase: surge measurement failed (stargazers metabase/metabase: HTTP 404)",
+    "ollama/ollama: surge measurement failed (stargazers ollama/ollama: HTTP 404)",
+    "omacom/omarchy: surge measurement failed (stargazers omacom/omarchy: HTTP 404)",
+    "promptfoo/promptfoo: surge measurement failed (stargazers promptfoo/promptfoo: HTTP 404)",
+    "sgl-project/sglang: surge measurement failed (stargazers sgl-project/sglang: HTTP 404)",
+    "trycua/cua: surge measurement failed (stargazers trycua/cua: HTTP 404)",
+    "zed-industries/zed: surge measurement failed (stargazers zed-industries/zed: HTTP 404)"
+  ]
 }
