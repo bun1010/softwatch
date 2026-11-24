@@ -20,7 +20,7 @@ class FakeGH:
     def repo(self, full):
         return self.repos.get(full)
 
-    def stargazers(self, owner, name, cutoff, cap):
+    def stargazers_rest(self, owner, name, cutoff, cap, created_at):
         r = self.repos[f"{owner}/{name}"]
         return {"total": r["stars"], "created_at": r["created_at"],
                 "starred": r["starred"], "covered_back_to": r["covered"], "pages": 3}

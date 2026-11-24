@@ -5,6 +5,7 @@ so a later stage cannot starve it. Each source failure is recorded, and the affe
 stored as NULL, never as zero."""
 import datetime as dt
 import json
+import os
 import tomllib
 from pathlib import Path
 from urllib.parse import urlparse
@@ -77,7 +78,11 @@ def measure_repo(full_name, gh, hn, con, run_id, now, cfg, canary_ok, errors):
     # 1. Surge measurement (exact star timestamps, measurement guard).
     cutoff = now - dt.timedelta(days=180)
     try:
-        walk = gh.stargazers(owner, name, cutoff, cfg["surge"]["page_cap"])
+        if os.environ.get("SOFTWATCH_GH_TOKEN") and hasattr(gh, "stargazers"):
+            walk = gh.stargazers(owner, name, cutoff, cfg["surge"]["page_cap"])  # GraphQL
+        else:
+            walk = gh.stargazers_rest(owner, name, cutoff, cfg["surge"]["rest_page_cap"],
+                                      rest["created_at"])
         starred = walk["starred"]
         times = [t for t, _, _, _ in starred]
         surge = surge_from_times(times, now, rest["created_at"], walk["total"],
@@ -88,13 +93,16 @@ def measure_repo(full_name, gh, hn, con, run_id, now, cfg, canary_ok, errors):
         sample = starred[:100]  # newest page: a sample of recent stargazers
         n = len(sample)
         if n >= cfg["quality"]["min_sample"]:
-            new_acc = sum(1 for st, uc, _, _ in sample if uc and (st - uc).days < 30)
-            pct_new = new_acc / n
+            # Account age needs the user's creation date (GraphQL only). Without it, the check
+            # is unavailable, never zero.
+            dated = [(st, uc) for st, uc, _, _ in sample if uc is not None]
+            pct_new = (sum(1 for st, uc in dated if (st - uc).days < 30) / len(dated)
+                       if len(dated) >= cfg["quality"]["min_sample"] else None)
             known = [(f, r) for _, _, f, r in sample if f is not None and r is not None]
             pct_empty = (sum(1 for f, r in known if f == 0 and r == 0) / len(known)
                          if len(known) >= cfg["quality"]["min_sample"] else None)
             m["suspicious_stars"] = (
-                pct_new > cfg["quality"]["pct_new_accounts_max"] or
+                (pct_new is not None and pct_new > cfg["quality"]["pct_new_accounts_max"]) or
                 (pct_empty is not None and pct_empty > cfg["quality"]["pct_empty_accounts_max"]))
         else:
             pct_new = pct_empty = None

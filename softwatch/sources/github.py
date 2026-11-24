@@ -1,5 +1,6 @@
 """GitHub REST, GraphQL and search. Authenticated with GITHUB_TOKEN (Actions) or SOFTWATCH_GH_TOKEN."""
 import datetime as dt
+import re
 
 from ..http import SourceError
 
@@ -21,6 +22,16 @@ query($o:String!, $n:String!, $before:String) {
 
 def _parse_time(s):
     return dt.datetime.fromisoformat(s.replace("Z", "+00:00"))
+
+
+def _last_page(link_header):
+    if not link_header:
+        return None
+    for part in link_header.split(","):
+        if 'rel="last"' in part:
+            m = re.search(r"[?&]page=(\d+)", part)
+            return int(m.group(1)) if m else None
+    return None
 
 
 class GitHub:
@@ -97,6 +108,54 @@ class GitHub:
                 break
             before = sg["pageInfo"]["startCursor"]
         return {"total": total, "created_at": created, "starred": starred,
+                "covered_back_to": covered, "pages": pages}
+
+    def stargazers_rest(self, owner, name, cutoff, page_cap, created_at):
+        """Walk stargazers with the REST API, newest page first.
+
+        The workflow token cannot use the GraphQL stargazer connection (verified: FORBIDDEN),
+        but the REST endpoint with the star+json media type returns starred_at. Pages are
+        ascending in time, so the walk starts at the last page and moves backwards. The
+        account-creation date is not in this payload, so it stays None (unavailable).
+        """
+        h = {**self.headers, "Accept": "application/vnd.github.star+json"}
+        base = f"{API}/repos/{owner}/{name}/stargazers"
+        self.budget.spend("github_rest")
+        r = self.http.get(base, params={"per_page": 100, "page": 1}, headers=h, key="github_rest")
+        if r.status_code != 200:
+            raise SourceError(f"stargazers {owner}/{name}: HTTP {r.status_code}")
+        last = _last_page(r.headers.get("Link")) or 1
+        starred, pages, covered, total = [], 0, None, None
+        page = last
+        while page >= 1:
+            if pages >= page_cap:
+                covered = None  # truncated: the prior window cannot be proven observed
+                break
+            if page == 1 and r is not None and last == 1:
+                items = r.json()
+            else:
+                self.budget.spend("github_rest")
+                pr = self.http.get(base, params={"per_page": 100, "page": page}, headers=h,
+                                   key="github_rest")
+                if pr.status_code != 200:
+                    raise SourceError(f"stargazers page {page}: HTTP {pr.status_code}")
+                items = pr.json()
+            pages += 1
+            if page == last:
+                total = (last - 1) * 100 + len(items)
+            for it in items:
+                starred.append((_parse_time(it["starred_at"]), None, None, None))
+            if not items:
+                break
+            oldest = min(t for t, _, _, _ in starred)
+            if page == 1:
+                covered = created_at  # every star was collected
+                break
+            if oldest <= cutoff:
+                covered = oldest
+                break
+            page -= 1
+        return {"total": total, "created_at": created_at, "starred": starred,
                 "covered_back_to": covered, "pages": pages}
 
     def search_repos(self, q, per_page=100):

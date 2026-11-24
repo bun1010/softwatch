@@ -18,10 +18,6 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -q -r requirements.txt
-      - name: TEMP graphql diagnostics
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pip install -q requests && python scripts/diag_graphql.py
       - name: Test
         run: python -m pytest -q
       - name: Daily run
