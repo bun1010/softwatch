@@ -1,1 +1,161 @@
-[]
+[
+  {
+    "full_name": "BaaRai/ARTEX",
+    "class": "watch",
+    "score": 40.0,
+    "reason": "score",
+    "components": {
+      "velocity": 0.0,
+      "acceleration": 0.0,
+      "switching": 25,
+      "substance": 15,
+      "confirmation": 0.0
+    },
+    "flags": [
+      "low_volume"
+    ],
+    "surge_status": "too_young",
+    "stars": 18437,
+    "ratio90": null,
+    "share90": null,
+    "artifacts_new_120d": 108,
+    "domains_90d": []
+  },
+  {
+    "full_name": "CyberTimon/RapidRAW",
+    "class": "watch",
+    "score": 40.0,
+    "reason": "score",
+    "components": {
+      "velocity": 0.0,
+      "acceleration": 0.0,
+      "switching": 25,
+      "substance": 15,
+      "confirmation": 0.0
+    },
+    "flags": [
+      "low_volume",
+      "unmeasurable_no_prior"
+    ],
+    "surge_status": "unmeasurable_no_prior",
+    "stars": 11249,
+    "ratio90": null,
+    "share90": null,
+    "artifacts_new_120d": 29,
+    "domains_90d": []
+  },
+  {
+    "full_name": "Gaurav-Gosain/tuios",
+    "class": "watch",
+    "score": 40.0,
+    "reason": "score",
+    "components": {
+      "velocity": 0.0,
+      "acceleration": 0.0,
+      "switching": 25,
+      "substance": 15,
+      "confirmation": 0.0
+    },
+    "flags": [
+      "low_volume",
+      "unmeasurable_no_prior"
+    ],
+    "surge_status": "unmeasurable_no_prior",
+    "stars": 6781,
+    "ratio90": null,
+    "share90": null,
+    "artifacts_new_120d": 26,
+    "domains_90d": []
+  },
+  {
+    "full_name": "NousResearch/hermes-agent",
+    "class": "watch",
+    "score": 40.0,
+    "reason": "score",
+    "components": {
+      "velocity": 0.0,
+      "acceleration": 0.0,
+      "switching": 25,
+      "substance": 15,
+      "confirmation": 0.0
+    },
+    "flags": [
+      "low_volume",
+      "unmeasurable_no_prior"
+    ],
+    "surge_status": "unmeasurable_no_prior",
+    "stars": 265764,
+    "ratio90": null,
+    "share90": null,
+    "artifacts_new_120d": 124,
+    "domains_90d": []
+  },
+  {
+    "full_name": "backnotprop/plannotator",
+    "class": "watch",
+    "score": 40.0,
+    "reason": "score",
+    "components": {
+      "velocity": 0.0,
+      "acceleration": 0.0,
+      "switching": 25,
+      "substance": 15,
+      "confirmation": 0.0
+    },
+    "flags": [
+      "low_volume",
+      "unmeasurable_no_prior"
+    ],
+    "surge_status": "unmeasurable_no_prior",
+    "stars": 14792,
+    "ratio90": null,
+    "share90": null,
+    "artifacts_new_120d": 69,
+    "domains_90d": []
+  },
+  {
+    "full_name": "hypit-ai/hypit",
+    "class": "watch",
+    "score": 40.0,
+    "reason": "score",
+    "components": {
+      "velocity": 0.0,
+      "acceleration": 0.0,
+      "switching": 25,
+      "substance": 15,
+      "confirmation": 0.0
+    },
+    "flags": [
+      "low_volume"
+    ],
+    "surge_status": "too_young",
+    "stars": 31320,
+    "ratio90": null,
+    "share90": null,
+    "artifacts_new_120d": 101,
+    "domains_90d": []
+  },
+  {
+    "full_name": "trycua/cua",
+    "class": "watch",
+    "score": 40.0,
+    "reason": "score",
+    "components": {
+      "velocity": 0.0,
+      "acceleration": 0.0,
+      "switching": 25,
+      "substance": 15,
+      "confirmation": 0.0
+    },
+    "flags": [
+      "low_volume",
+      "unmeasurable_no_prior"
+    ],
+    "surge_status": "unmeasurable_no_prior",
+    "stars": 32856,
+    "ratio90": null,
+    "share90": null,
+    "artifacts_new_120d": 100,
+    "domains_90d": []
+  }
+]

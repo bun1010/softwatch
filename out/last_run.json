@@ -1,33 +1,15 @@
 {
-  "run_id": "20261124T1130",
-  "finished_at": "2026-11-24T11:30:22Z",
+  "run_id": "20261124T1133",
+  "finished_at": "2026-11-24T11:33:15Z",
   "ok": true,
   "canary_ok": true,
   "canary_value": 141,
-  "repos_measured": 0,
+  "repos_measured": 17,
   "alerts": [],
   "budget_used": {
-    "github_rest": 17,
-    "github_graphql": 0,
-    "hn": 1
+    "github_rest": 49,
+    "github_graphql": 17,
+    "hn": 18
   },
-  "errors": [
-    "AstrBotDevs/AstrBot: repo AstrBotDevs/AstrBot: HTTP 401",
-    "BaaRai/ARTEX: repo BaaRai/ARTEX: HTTP 401",
-    "CyberTimon/RapidRAW: repo CyberTimon/RapidRAW: HTTP 401",
-    "Gaurav-Gosain/tuios: repo Gaurav-Gosain/tuios: HTTP 401",
-    "JetBrains/intellij-community: repo JetBrains/intellij-community: HTTP 401",
-    "NousResearch/hermes-agent: repo NousResearch/hermes-agent: HTTP 401",
-    "backnotprop/plannotator: repo backnotprop/plannotator: HTTP 401",
-    "chromium/chromium: repo chromium/chromium: HTTP 401",
-    "hypit-ai/hypit: repo hypit-ai/hypit: HTTP 401",
-    "meta/astryx: repo meta/astryx: HTTP 401",
-    "metabase/metabase: repo metabase/metabase: HTTP 401",
-    "ollama/ollama: repo ollama/ollama: HTTP 401",
-    "omacom/omarchy: repo omacom/omarchy: HTTP 401",
-    "promptfoo/promptfoo: repo promptfoo/promptfoo: HTTP 401",
-    "sgl-project/sglang: repo sgl-project/sglang: HTTP 401",
-    "trycua/cua: repo trycua/cua: HTTP 401",
-    "zed-industries/zed: repo zed-industries/zed: HTTP 401"
-  ]
+  "errors": []
 }
