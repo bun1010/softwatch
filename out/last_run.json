@@ -1,9 +1,9 @@
 {
-  "run_id": "20261124T1137",
-  "finished_at": "2026-11-24T11:37:29Z",
+  "run_id": "20261124T1217",
+  "finished_at": "2026-11-24T12:17:40Z",
   "ok": true,
   "canary_ok": true,
-  "canary_value": 140,
+  "canary_value": 139,
   "repos_measured": 17,
   "alerts": [],
   "budget_used": {
