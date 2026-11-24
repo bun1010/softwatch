@@ -85,8 +85,12 @@ def cmd_review(args):
         "Precision: not measured yet. Shadow controls and outcome labels are not implemented.",
         "Outcomes at 90/180 days: not implemented in this version.",
     ]
-    (OUT / "notify.txt").write_text("\n".join(lines) + "\n")
-    print("\n".join(lines))
+    text = "\n".join(lines) + "\n"
+    (OUT / "notify.txt").write_text(text)
+    print(text)
+    status = telegram.send(text, os.environ.get("TELEGRAM_BOT_TOKEN", ""),
+                           os.environ.get("TELEGRAM_CHAT_ID", ""))
+    print(f"telegram review: {status}")
     return 0
 
 
