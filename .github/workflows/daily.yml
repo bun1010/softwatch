@@ -1,0 +1,36 @@
+name: softwatch daily
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+concurrency:
+  group: softwatch
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q -r requirements.txt
+      - name: Test
+        run: python -m pytest -q
+      - name: Daily run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOFTWATCH_GH_TOKEN: ${{ secrets.SOFTWATCH_GH_TOKEN }}
+        run: python -m softwatch daily --run-id "$(date -u +%Y%m%dT%H%M)"
+      - name: Commit state and outputs
+        run: |
+          git config user.name "softwatch-bot"
+          git config user.email "softwatch-bot@users.noreply.github.com"
+          git add data out
+          if ! git diff --cached --quiet; then
+            git commit -m "softwatch daily $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi

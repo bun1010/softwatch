@@ -1,0 +1,70 @@
+# Acceptance / seed universe (handover pack Part B). Used as the tracked universe until
+# discovery (stages/discover.py) is implemented. Traps must never be classified as surges.
+
+[[repo]]
+full_name = "BaaRai/ARTEX"
+role = "interesting"
+
+[[repo]]
+full_name = "sgl-project/sglang"
+role = "interesting"
+
+[[repo]]
+full_name = "backnotprop/plannotator"
+role = "interesting"
+
+[[repo]]
+full_name = "AstrBotDevs/AstrBot"
+role = "interesting"
+
+[[repo]]
+full_name = "trycua/cua"
+role = "interesting"
+
+[[repo]]
+full_name = "promptfoo/promptfoo"
+role = "interesting"
+
+[[repo]]
+full_name = "Gaurav-Gosain/tuios"
+role = "interesting"
+
+[[repo]]
+full_name = "hypit-ai/hypit"
+role = "interesting"
+
+[[repo]]
+full_name = "chromium/chromium"
+role = "trap"
+
+[[repo]]
+full_name = "metabase/metabase"
+role = "trap"
+
+[[repo]]
+full_name = "JetBrains/intellij-community"
+role = "trap"
+
+[[repo]]
+full_name = "omacom/omarchy"
+role = "known"
+
+[[repo]]
+full_name = "CyberTimon/RapidRAW"
+role = "known"
+
+[[repo]]
+full_name = "NousResearch/hermes-agent"
+role = "known"
+
+[[repo]]
+full_name = "ollama/ollama"
+role = "known"
+
+[[repo]]
+full_name = "zed-industries/zed"
+role = "known"
+
+[[repo]]
+full_name = "meta/astryx"
+role = "known"

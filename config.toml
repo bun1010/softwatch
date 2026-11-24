@@ -1,0 +1,53 @@
+[gates]
+min_age_days = 30
+max_age_days = 730
+min_ecosystem_artifacts = 3
+
+[weights]
+velocity = 25
+accel = 20
+switching = 25
+substance = 15
+confirm = 15
+
+[verdict]
+inflection = 75
+emerging = 60
+watch = 40
+accel_trigger = 1.2
+
+[surge]
+min_age_days = 180
+class_min_age_days = 365
+share_90d = 0.15
+min_growth_90d = 750
+min_stars = 800
+max_stars = 400000
+fast_ratio = 1.5
+min_ratio = 0.7
+page_cap = 120
+consistency_tolerance = 0.02
+
+[quality]
+pct_new_accounts_max = 0.35
+pct_empty_accounts_max = 0.5
+min_sample = 50
+
+[alerts]
+daily_cap = 3
+per_repo_min_days = 7
+realert_days = 60
+realert_score_delta = 10
+
+[freshness]
+confirm_stale_hours = 48
+
+[budget]
+github_rest_per_run = 600
+github_graphql_per_run = 2500
+github_search_gap_seconds = 6.5
+hn_per_run = 400
+hn_gap_seconds = 1.0
+
+[banned]
+topics = ["awesome-list", "awesome", "tutorial", "template", "boilerplate", "course", "interview", "roadmap", "cheatsheet"]
