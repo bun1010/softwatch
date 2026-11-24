@@ -100,7 +100,7 @@ def cmd_summary(args):
         f"Status: {'ok' if last.get('ok') else 'FAILED'}; canary {'ok' if last.get('canary_ok') else 'failed'}",
         f"Measured: {last.get('repos_measured', 'unavailable')} repos; alerts: {len(alerts)}; "
         f"measurement errors: {len(errors)}",
-        "Full detail in the Monday digest: https://github.com/bun1010/softwatch",
+        "Full report: https://github.com/bun1010/softwatch/blob/main/out/last_run.json",
     ]
     status = telegram.send("\n".join(lines), os.environ.get("TELEGRAM_BOT_TOKEN", ""),
                            os.environ.get("TELEGRAM_CHAT_ID", ""))
