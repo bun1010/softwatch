@@ -58,3 +58,50 @@ def velocities(daily, now):
             total += daily.get(day, 0)
         return total / days
     return window(7), window(28)
+
+
+def surge_from_anchors(anchors, now, created_at, live_stars, cfg, tolerance=0.02):
+    """Surge test from star-history chart anchors (dated cumulative stars).
+
+    Window boundaries snap to chart anchor dates, so no value is interpolated: the
+    numbers are differences between recorded anchors. The chart's latest anchor must agree
+    with the live star count from the API, or the result is 'inconsistent'.
+    """
+    out = {"surge_status": None, "stars_last90": None, "stars_prior90": None,
+           "share90": None, "ratio90": None, "anchors_last90": 0, "anchors_prior90": 0,
+           "history_source": "star_history_svg"}
+    if (now - created_at).days < cfg["min_age_days"]:
+        out["surge_status"] = "too_young"
+        return out
+    if not anchors or live_stars is None:
+        out["surge_status"] = "unmeasurable_truncated"
+        return out
+    last_day, last_stars = anchors[-1]
+    if (now.date() - last_day).days > 3 or abs(last_stars - live_stars) / live_stars > tolerance:
+        out["surge_status"] = "inconsistent"
+        return out
+    cut90, cut180 = (now - dt.timedelta(days=90)).date(), (now - dt.timedelta(days=180)).date()
+    if anchors[0][0] > cut180:
+        out["surge_status"] = "unmeasurable_truncated"  # chart does not reach 180 days back
+        return out
+    a90 = [a for a in anchors if a[0] <= cut90]
+    a180 = [a for a in anchors if a[0] <= cut180]
+    out["anchors_last90"] = sum(1 for a in anchors if a[0] > cut90)
+    out["anchors_prior90"] = sum(1 for a in anchors if cut180 < a[0] <= cut90)
+    if not a90 or not a180:
+        out["surge_status"] = "unmeasurable_truncated"
+        return out
+    base90, base180 = a90[-1][1], a180[-1][1]
+    last90 = last_stars - base90
+    prior90 = base90 - base180
+    out["stars_last90"], out["stars_prior90"] = round(last90), round(prior90)
+    if prior90 <= 0:
+        out["surge_status"] = "unmeasurable_no_prior"
+        return out
+    if out["anchors_last90"] < 3 or out["anchors_prior90"] < 1:
+        out["surge_status"] = "unmeasurable_sparse"
+        return out
+    out["surge_status"] = "measured"
+    out["share90"] = last90 / last_stars
+    out["ratio90"] = last90 / prior90
+    return out

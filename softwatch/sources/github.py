@@ -1,5 +1,6 @@
 """GitHub REST, GraphQL and search. Authenticated with GITHUB_TOKEN (Actions) or SOFTWATCH_GH_TOKEN."""
 import datetime as dt
+import re
 
 from ..http import SourceError
 
@@ -12,7 +13,7 @@ query($o:String!, $n:String!, $before:String) {
     createdAt
     stargazers(last:100, before:$before, orderBy:{field:STARRED_AT, direction:ASC}) {
       pageInfo { hasPreviousPage startCursor }
-      edges { starredAt node { createdAt followers { totalCount } repositories { totalCount } } }
+      edges { starredAt node { createdAt } }
     }
   }
 }
@@ -21,6 +22,16 @@ query($o:String!, $n:String!, $before:String) {
 
 def _parse_time(s):
     return dt.datetime.fromisoformat(s.replace("Z", "+00:00"))
+
+
+def _last_page(link_header):
+    if not link_header:
+        return None
+    for part in link_header.split(","):
+        if 'rel="last"' in part:
+            m = re.search(r"[?&]page=(\d+)", part)
+            return int(m.group(1)) if m else None
+    return None
 
 
 class GitHub:
@@ -74,11 +85,13 @@ class GitHub:
             pages += 1
             for e in sg["edges"]:
                 node = e["node"] or {}
+                # Follower and repo counts need scopes the workflow token lacks, so they are
+                # not requested. None means unavailable, never zero.
                 starred.append((
                     _parse_time(e["starredAt"]),
                     _parse_time(node["createdAt"]) if node.get("createdAt") else None,
-                    (node.get("followers") or {}).get("totalCount"),
-                    (node.get("repositories") or {}).get("totalCount"),
+                    None,
+                    None,
                 ))
             if not sg["edges"]:
                 covered = created
@@ -96,6 +109,70 @@ class GitHub:
             before = sg["pageInfo"]["startCursor"]
         return {"total": total, "created_at": created, "starred": starred,
                 "covered_back_to": covered, "pages": pages}
+
+    def stargazers_rest(self, owner, name, cutoff, page_cap, created_at):
+        """Walk stargazers with the REST API, newest page first.
+
+        The workflow token cannot use the GraphQL stargazer connection (verified: FORBIDDEN),
+        but the REST endpoint with the star+json media type returns starred_at. Pages are
+        ascending in time, so the walk starts at the last page and moves backwards. The
+        account-creation date is not in this payload, so it stays None (unavailable).
+        """
+        h = {**self.headers, "Accept": "application/vnd.github.star+json"}
+        base = f"{API}/repos/{owner}/{name}/stargazers"
+        self.budget.spend("github_rest")
+        r = self.http.get(base, params={"per_page": 100, "page": 1}, headers=h, key="github_rest")
+        if r.status_code != 200:
+            raise SourceError(f"stargazers {owner}/{name}: HTTP {r.status_code}")
+        first_items = r.json()
+        last = _last_page(r.headers.get("Link"))
+        if last is None:
+            if len(first_items) == 100:
+                raise SourceError(f"stargazers {owner}/{name}: no pagination header on a full page")
+            last = 1  # one page: everything is on it
+        starred, pages, covered, total = [], 0, None, None
+        page = last
+        while page >= 1:
+            if pages >= page_cap:
+                covered = None  # truncated: the prior window cannot be proven observed
+                break
+            if last == 1:
+                items = first_items
+            else:
+                self.budget.spend("github_rest")
+                pr = self.http.get(base, params={"per_page": 100, "page": page}, headers=h,
+                                   key="github_rest")
+                if pr.status_code != 200:
+                    raise SourceError(f"stargazers page {page}: HTTP {pr.status_code}")
+                items = pr.json()
+            pages += 1
+            if page == last:
+                total = (last - 1) * 100 + len(items)
+            for it in items:
+                starred.append((_parse_time(it["starred_at"]), None, None, None))
+            if not items:
+                break
+            oldest = min(t for t, _, _, _ in starred)
+            if page == 1:
+                covered = created_at  # every star was collected
+                break
+            if oldest <= cutoff:
+                covered = oldest
+                break
+            page -= 1
+        if not starred:
+            raise SourceError(f"stargazers {owner}/{name}: empty result for a repo with stars")
+        return {"total": total, "created_at": created_at, "starred": starred,
+                "covered_back_to": covered, "pages": pages}
+
+    def star_history_svg(self, full_name):
+        """Raw star-history chart. Public, no token, paced to be polite."""
+        r = self.http.get("https://api.star-history.com/svg",
+                          params={"repos": full_name, "type": "Date"},
+                          key="star_history", gap=2.0, timeout=(10, 60))
+        if r.status_code != 200 or "<svg" not in r.text[:500]:
+            raise SourceError(f"star-history {full_name}: HTTP {r.status_code}")
+        return r.text
 
     def search_repos(self, q, per_page=100):
         """Returns (total_count, items). Search is rate limited, so it is paced."""

@@ -26,6 +26,7 @@ max_stars = 400000
 fast_ratio = 1.5
 min_ratio = 0.7
 page_cap = 120
+rest_page_cap = 60
 consistency_tolerance = 0.02
 
 [quality]
@@ -43,7 +44,7 @@ realert_score_delta = 10
 confirm_stale_hours = 48
 
 [budget]
-github_rest_per_run = 600
+github_rest_per_run = 1000
 github_graphql_per_run = 2500
 github_search_gap_seconds = 6.5
 hn_per_run = 400

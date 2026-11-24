@@ -46,7 +46,7 @@ The Pi handover pack (Hermes, Oct–Nov 2026) is design input. This plan keeps i
 | api.github.com / github.com | **Not usable for arbitrary repos.** The environment only permits GitHub API calls for repos attached to the session (tested: `api.github.com/repos/omacom/omarchy` → "GitHub access to this repository is not enabled for this session"; search → 403). Connecting a GitHub account does not change this. | Do **not** use the GitHub API. Use §4.0 sources. |
 | raw.githubusercontent.com | **Reachable** (tested, 206) | READMEs and manifest files of any public repo: used for anchor checks (§5) and package mapping. |
 | data.gharchive.org | Blocked by network policy | Allowlist (P2). Primary GitHub data source. |
-| hn.algolia.com, lobste.rs, api.star-history.com, ossinsight, huggingface, npm, repology, deps.dev, bsky, ntfy.sh | **Blocked by the environment network policy** | Prerequisite P2: allowlist hosts (§1.1). |
+| hn.algolia.com, lobste.rs, api.star-history.com, ossinsight, huggingface, npm, repology, deps.dev, bsky | **Blocked by the environment network policy** | Prerequisite P2: allowlist hosts (§1.1). |
 | pypi.org | Reachable | |
 | gcloud / bq | Installed, not authenticated | GH Archive via BigQuery is a *future* option (§12), not v1. |
 | Container disk | Ephemeral; wiped between sessions | All durable state lives in `/mnt/project-files/softwatch/` (persists across threads and runs). |
@@ -64,13 +64,13 @@ Not needed: `api.github.com` / `github.com` (unusable here, see above).
 
 ## 2. Notifications — how alerts reach Jack's Android phone
 
-**Finding:** no ntfy-style topic exists in project memory or elsewhere. Jack's two other recent projects ("Daily photo theme", "Braun IPL price watch") use **scheduled tasks bound to a project thread session, which post into the thread with `post_message`; the Claude Android app delivers that as a push notification.** ntfy.sh is also blocked by the network policy. So v1 uses the same mechanism:
+**Revision 4 (2026-11-24):** alerts now go to Telegram directly from the GitHub Actions job (`softwatch/notify/telegram.py`). This replaces the Claude-thread delivery described below. The scheduled Claude task is only needed for health and digest posts.
 
 - Scheduled tasks fire into **this project thread's session** (the Softwatch thread).
 - The run executes the Python pipeline, which writes `out/notify.txt` (exact text, already formatted).
 - The session posts `out/notify.txt` verbatim with `post_message`. If the file is empty, the session ends the turn with `no_reply_needed` (no push, no noise).
 
-**Confirmed by Jack (2026-11-23):** alerts arrive through the Claude app's notifications for the thread; the scheduled task does not push by itself. So notifications must be switched on in the Claude app for the Softwatch thread. No ntfy. Keep delivery behind a small adapter (`notify/thread.py` just writes `out/notify.txt`) so another channel could be added later.
+**Confirmed by Jack (2026-11-23):** alerts arrive through the Claude app's notifications for the thread; the scheduled task does not push by itself. So notifications must be switched on in the Claude app for the Softwatch thread. Keep delivery behind a small adapter (`notify/thread.py` just writes `out/notify.txt`) so another channel could be added later.
 
 ### 2.1 Notification types and budget
 
