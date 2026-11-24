@@ -22,6 +22,7 @@ class_min_age_days = 365
 share_90d = 0.15
 min_growth_90d = 750
 min_stars = 800
+min_prior_stars = 100
 max_stars = 400000
 fast_ratio = 1.5
 min_ratio = 0.7
