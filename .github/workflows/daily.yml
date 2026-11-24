@@ -26,6 +26,7 @@ jobs:
         run: |
           echo "secrets present: token=${TELEGRAM_BOT_TOKEN:+yes} chat=${TELEGRAM_CHAT_ID:+yes}"
           python -c "import os,requests; from softwatch.notify import telegram as t; print(t.send('Softwatch test: Telegram alerts are connected. Tap to open: https://github.com/bun1010/softwatch', os.environ.get('TELEGRAM_BOT_TOKEN',''), os.environ.get('TELEGRAM_CHAT_ID','')))"
+      - name: Test
         run: python -m pytest -q
       - name: Daily run
         env:
