@@ -27,14 +27,14 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python -m softwatch daily --run-id "$(date -u +%Y%m%dT%H%M)"
-      - name: Telegram summary (every second day)
+      - name: Telegram mini report (every second day)
         if: github.event_name == 'schedule'
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           if [ $(( $(date -u +%j | sed 's/^0*//') % 2 )) -eq 0 ]; then
-            python -m softwatch summary
+            python -m softwatch mini-report
           else
             echo "odd day: no summary"
           fi
