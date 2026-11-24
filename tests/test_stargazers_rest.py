@@ -70,3 +70,32 @@ def test_walk_truncated_at_page_cap():
     gh.http = FakeHttp(pages)
     walk = gh.stargazers_rest("o", "r", _ts(180), 3, CREATED)
     assert walk["covered_back_to"] is None  # truncated: guard will mark it unmeasurable
+
+
+def test_full_first_page_without_link_header_is_an_error():
+    import pytest
+    from softwatch.http import SourceError
+
+    class NoLink(FakeHttp):
+        def get(self, url, params=None, headers=None, key=None, gap=0):
+            items = [{"starred_at": _ts(1).strftime("%Y-%m-%dT%H:%M:%SZ")}] * 100
+            return Resp(items, None)
+
+    gh = GitHub(None, "", Budget(), 0)
+    gh.http = NoLink([])
+    with pytest.raises(SourceError):
+        gh.stargazers_rest("o", "r", _ts(180), 60, CREATED)
+
+
+def test_empty_stargazer_list_is_an_error_not_zero():
+    import pytest
+    from softwatch.http import SourceError
+
+    class Empty(FakeHttp):
+        def get(self, url, params=None, headers=None, key=None, gap=0):
+            return Resp([], None)
+
+    gh = GitHub(None, "", Budget(), 0)
+    gh.http = Empty([])
+    with pytest.raises(SourceError):
+        gh.stargazers_rest("o", "r", _ts(180), 60, CREATED)

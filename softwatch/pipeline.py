@@ -5,7 +5,6 @@ so a later stage cannot starve it. Each source failure is recorded, and the affe
 stored as NULL, never as zero."""
 import datetime as dt
 import json
-import os
 import tomllib
 from pathlib import Path
 from urllib.parse import urlparse
@@ -78,11 +77,10 @@ def measure_repo(full_name, gh, hn, con, run_id, now, cfg, canary_ok, errors):
     # 1. Surge measurement (exact star timestamps, measurement guard).
     cutoff = now - dt.timedelta(days=180)
     try:
-        if os.environ.get("SOFTWATCH_GH_TOKEN") and hasattr(gh, "stargazers"):
-            walk = gh.stargazers(owner, name, cutoff, cfg["surge"]["page_cap"])  # GraphQL
-        else:
-            walk = gh.stargazers_rest(owner, name, cutoff, cfg["surge"]["rest_page_cap"],
-                                      rest["created_at"])
+        # REST walk: the GraphQL stargazer path returned empty pages for this token (a zero
+        # count there would be a silent fake measurement), so it is not used.
+        walk = gh.stargazers_rest(owner, name, cutoff, cfg["surge"]["rest_page_cap"],
+                                  rest["created_at"])
         starred = walk["starred"]
         times = [t for t, _, _, _ in starred]
         surge = surge_from_times(times, now, rest["created_at"], walk["total"],

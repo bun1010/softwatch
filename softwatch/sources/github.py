@@ -124,15 +124,20 @@ class GitHub:
         r = self.http.get(base, params={"per_page": 100, "page": 1}, headers=h, key="github_rest")
         if r.status_code != 200:
             raise SourceError(f"stargazers {owner}/{name}: HTTP {r.status_code}")
-        last = _last_page(r.headers.get("Link")) or 1
+        first_items = r.json()
+        last = _last_page(r.headers.get("Link"))
+        if last is None:
+            if len(first_items) == 100:
+                raise SourceError(f"stargazers {owner}/{name}: no pagination header on a full page")
+            last = 1  # one page: everything is on it
         starred, pages, covered, total = [], 0, None, None
         page = last
         while page >= 1:
             if pages >= page_cap:
                 covered = None  # truncated: the prior window cannot be proven observed
                 break
-            if page == 1 and r is not None and last == 1:
-                items = r.json()
+            if last == 1:
+                items = first_items
             else:
                 self.budget.spend("github_rest")
                 pr = self.http.get(base, params={"per_page": 100, "page": page}, headers=h,
@@ -155,6 +160,8 @@ class GitHub:
                 covered = oldest
                 break
             page -= 1
+        if not starred:
+            raise SourceError(f"stargazers {owner}/{name}: empty result for a repo with stars")
         return {"total": total, "created_at": created_at, "starred": starred,
                 "covered_back_to": covered, "pages": pages}
 
