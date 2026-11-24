@@ -101,6 +101,10 @@ def surge_from_anchors(anchors, now, created_at, live_stars, cfg, tolerance=0.02
     if out["anchors_last90"] < 3 or out["anchors_prior90"] < 1:
         out["surge_status"] = "unmeasurable_sparse"
         return out
+    if prior90 < cfg["min_prior_stars"]:
+        # A tiny prior base makes the ratio meaningless (96 prior stars gave 42x).
+        out["surge_status"] = "unmeasurable_small_base"
+        return out
     out["surge_status"] = "measured"
     out["share90"] = last90 / last_stars
     out["ratio90"] = last90 / prior90

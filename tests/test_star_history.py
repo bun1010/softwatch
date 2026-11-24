@@ -79,3 +79,12 @@ def test_chart_not_reaching_180_days_is_truncated():
     a = _anchors([(100, 500), (1, 900)])
     r = surge_from_anchors(a, NOW, NOW - dt.timedelta(days=900), 900, CFG)
     assert r["surge_status"] == "unmeasurable_truncated"
+
+
+def test_small_prior_base_is_not_a_ratio():
+    # 96 stars in the prior window: measurable in principle, but the ratio is not trustworthy
+    a = _anchors([(200, 100), (150, 300), (120, 196), (60, 380), (30, 420), (1, 4500)])
+    r = surge_from_anchors(a, NOW, NOW - dt.timedelta(days=900), 4500, CFG)
+    assert r["stars_prior90"] == 96
+    assert r["surge_status"] == "unmeasurable_small_base"
+    assert r["ratio90"] is None
