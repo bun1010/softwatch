@@ -89,10 +89,13 @@ def measure_repo(full_name, gh, hn, con, run_id, now, cfg, canary_ok, errors):
         n = len(sample)
         if n >= cfg["quality"]["min_sample"]:
             new_acc = sum(1 for st, uc, _, _ in sample if uc and (st - uc).days < 30)
-            empty = sum(1 for _, _, f, r in sample if f == 0 and r == 0)
-            pct_new, pct_empty = new_acc / n, empty / n
-            m["suspicious_stars"] = (pct_new > cfg["quality"]["pct_new_accounts_max"] or
-                                     pct_empty > cfg["quality"]["pct_empty_accounts_max"])
+            pct_new = new_acc / n
+            known = [(f, r) for _, _, f, r in sample if f is not None and r is not None]
+            pct_empty = (sum(1 for f, r in known if f == 0 and r == 0) / len(known)
+                         if len(known) >= cfg["quality"]["min_sample"] else None)
+            m["suspicious_stars"] = (
+                pct_new > cfg["quality"]["pct_new_accounts_max"] or
+                (pct_empty is not None and pct_empty > cfg["quality"]["pct_empty_accounts_max"]))
         else:
             pct_new = pct_empty = None
             m["suspicious_stars"] = False

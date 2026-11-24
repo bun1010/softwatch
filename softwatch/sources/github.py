@@ -12,7 +12,7 @@ query($o:String!, $n:String!, $before:String) {
     createdAt
     stargazers(last:100, before:$before, orderBy:{field:STARRED_AT, direction:ASC}) {
       pageInfo { hasPreviousPage startCursor }
-      edges { starredAt node { createdAt followers { totalCount } repositories { totalCount } } }
+      edges { starredAt node { createdAt } }
     }
   }
 }
@@ -74,11 +74,13 @@ class GitHub:
             pages += 1
             for e in sg["edges"]:
                 node = e["node"] or {}
+                # Follower and repo counts need scopes the workflow token lacks, so they are
+                # not requested. None means unavailable, never zero.
                 starred.append((
                     _parse_time(e["starredAt"]),
                     _parse_time(node["createdAt"]) if node.get("createdAt") else None,
-                    (node.get("followers") or {}).get("totalCount"),
-                    (node.get("repositories") or {}).get("totalCount"),
+                    None,
+                    None,
                 ))
             if not sg["edges"]:
                 covered = created
