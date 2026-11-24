@@ -16,7 +16,7 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 47426,
+    "stars": 47427,
     "ratio90": 1.4117495548562662,
     "share90": 0.2974402653870749,
     "artifacts_new_120d": 122,
@@ -39,7 +39,7 @@
       "acceleration_unavailable"
     ],
     "surge_status": "unavailable",
-    "stars": 18550,
+    "stars": 18555,
     "ratio90": null,
     "share90": null,
     "artifacts_new_120d": 108,
@@ -109,7 +109,7 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 265778,
+    "stars": 265779,
     "ratio90": 0.629877004215349,
     "share90": 0.15441934607849872,
     "artifacts_new_120d": 124,
@@ -132,7 +132,7 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 14807,
+    "stars": 14810,
     "ratio90": 2.685112007048836,
     "share90": 0.47455219711892693,
     "artifacts_new_120d": 69,
