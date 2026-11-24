@@ -18,6 +18,8 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -q -r requirements.txt
+      - name: TEMP star-history probe
+        run: pip install -q requests && python scripts/probe_star_history.py
       - name: Test
         run: python -m pytest -q
       - name: Daily run
