@@ -17,8 +17,8 @@
     ],
     "surge_status": "measured",
     "stars": 47426,
-    "ratio90": 1.4115407442245897,
-    "share90": 0.29740931224328593,
+    "ratio90": 1.4117495548562662,
+    "share90": 0.2974402653870749,
     "artifacts_new_120d": 122,
     "domains_90d": []
   },
@@ -39,7 +39,7 @@
       "acceleration_unavailable"
     ],
     "surge_status": "unavailable",
-    "stars": 18503,
+    "stars": 18550,
     "ratio90": null,
     "share90": null,
     "artifacts_new_120d": 108,
@@ -62,9 +62,9 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 11249,
-    "ratio90": 0.9288281396590813,
-    "share90": 0.15183347250144774,
+    "stars": 11250,
+    "ratio90": 0.9293839136208775,
+    "share90": 0.15190880330487805,
     "artifacts_new_120d": 29,
     "domains_90d": []
   },
@@ -82,12 +82,13 @@
     },
     "flags": [
       "velocity_unavailable",
-      "acceleration_unavailable"
+      "acceleration_unavailable",
+      "unmeasurable_small_base"
     ],
-    "surge_status": "measured",
+    "surge_status": "unmeasurable_small_base",
     "stars": 6781,
-    "ratio90": 42.55364592024026,
-    "share90": 0.6017083369448875,
+    "ratio90": null,
+    "share90": null,
     "artifacts_new_120d": 26,
     "domains_90d": []
   },
@@ -108,7 +109,7 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 265770,
+    "stars": 265778,
     "ratio90": 0.629877004215349,
     "share90": 0.15441934607849872,
     "artifacts_new_120d": 124,
@@ -131,9 +132,9 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 14801,
-    "ratio90": 2.682421072295911,
-    "share90": 0.47430445817931927,
+    "stars": 14807,
+    "ratio90": 2.685112007048836,
+    "share90": 0.47455219711892693,
     "artifacts_new_120d": 69,
     "domains_90d": []
   },
@@ -154,7 +155,7 @@
       "acceleration_unavailable"
     ],
     "surge_status": "unavailable",
-    "stars": 31324,
+    "stars": 31329,
     "ratio90": null,
     "share90": null,
     "artifacts_new_120d": 101,
@@ -223,7 +224,7 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 32857,
+    "stars": 32859,
     "ratio90": 2.9661741473840726,
     "share90": 0.37655135964764286,
     "artifacts_new_120d": 100,
