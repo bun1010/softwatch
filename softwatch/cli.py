@@ -90,21 +90,18 @@ def cmd_review(args):
     return 0
 
 
-def cmd_summary(args):
-    """Short status for Telegram every second day, in place of the daily post."""
-    last = json.loads((OUT / "last_run.json").read_text())
-    errors = last.get("errors") or []
-    alerts = last.get("alerts") or []
-    lines = [
-        f"Softwatch summary, run {last.get('run_id')}",
-        f"Status: {'ok' if last.get('ok') else 'FAILED'}; canary {'ok' if last.get('canary_ok') else 'failed'}",
-        f"Measured: {last.get('repos_measured', 'unavailable')} repos; alerts: {len(alerts)}; "
-        f"measurement errors: {len(errors)}",
-        "Full detail in the Monday digest: https://github.com/bun1010/softwatch",
-    ]
-    status = telegram.send("\n".join(lines), os.environ.get("TELEGRAM_BOT_TOKEN", ""),
+def cmd_mini_report(args):
+    """Every second day: a mini report to Telegram (see softwatch/report.py)."""
+    import json as _json
+    from .report import build
+    from .db import connect as _connect
+    con = _connect(DATA)
+    last = _json.loads((OUT / "last_run.json").read_text()) if (OUT / "last_run.json").exists() else None
+    text = build(con, utcnow().strftime("%d %b %Y %H:%M UTC"), last)
+    (OUT / "mini_report.txt").write_text(text)
+    status = telegram.send(text, os.environ.get("TELEGRAM_BOT_TOKEN", ""),
                            os.environ.get("TELEGRAM_CHAT_ID", ""))
-    print(f"telegram summary: {status}")
+    print(f"telegram mini report: {status}")
     return 0
 
 
@@ -119,8 +116,8 @@ def main(argv=None):
     dp.set_defaults(fn=cmd_digest_prep)
     rv = sub.add_parser("review")
     rv.set_defaults(fn=cmd_review)
-    sm = sub.add_parser("summary")
-    sm.set_defaults(fn=cmd_summary)
+    mr = sub.add_parser("mini-report")
+    mr.set_defaults(fn=cmd_mini_report)
     args = p.parse_args(argv)
     return args.fn(args) or 0
 
