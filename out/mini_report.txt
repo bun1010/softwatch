@@ -1,45 +1,45 @@
-Softwatch mini report, 24 Nov 2026 13:36 UTC
+Softwatch mini report, 26 Nov 2026 17:05 UTC
 
-Run 20261124T1318: 17 repos measured, 0 alerts.
+Run 20261126T1701: 17 repos measured, 0 alerts.
 
 BaaRai/ARTEX (Go)
 https://github.com/BaaRai/ARTEX
-ARTEX - AI autonomous penetration testing system (English translation; upstream: Autumn-27/ARTEX, AGPL-3.0)
-Stars: 18566; surge test: too_young; class: watch
+Actively maintained ARTEX: AI autonomous penetration testing system. Self-hosted, model-agnostic, evidence-backed findings. Community continuation of…
+Stars: 21889; surge test: too_young; class: watch
 
 sgl-project/sglang (Python)
 https://github.com/sgl-project/sglang
 SGLang is a high-performance serving framework for large language models and multimodal models.
-Stars: 39017; last 90 days vs prior 90 days: 3.19x; class: watch
+Stars: 39095; last 90 days vs prior 90 days: 3.22x; class: watch
 
 backnotprop/plannotator (TypeScript)
 https://github.com/backnotprop/plannotator
 The workspace to stay in the loop and on top of agents - shape, decide, plan, annotate, review code, share with team, and send all feedback to agents…
-Stars: 14812; last 90 days vs prior 90 days: 2.69x; class: watch
+Stars: 15217; last 90 days vs prior 90 days: 2.85x; class: watch
 
 AstrBotDevs/AstrBot (Python)
 https://github.com/AstrBotDevs/AstrBot
 AI Agent Assistant & development framework that integrates lots of IM platforms, LLMs, plugins and AI feature, and can be your openclaw alternative. ✨
-Stars: 47429; last 90 days vs prior 90 days: 1.41x; class: watch
+Stars: 47577; last 90 days vs prior 90 days: 1.45x; class: watch
 
 trycua/cua (Rust)
 https://github.com/trycua/cua
 Scale computer-use 2.0 with open-source drivers, cross-OS sandboxes, and benchmarks for training, evaluation, and data generation.
-Stars: 32860; last 90 days vs prior 90 days: 2.97x; class: watch
+Stars: 32988; last 90 days vs prior 90 days: 2.95x; class: watch
 
 promptfoo/promptfoo (TypeScript)
 https://github.com/promptfoo/promptfoo
 Test your prompts, agents, and RAGs. Red teaming/pentesting/vulnerability scanning for AI. Compare performance of GPT, Claude, Gemini, DeepSeek, and…
-Stars: 27618; last 90 days vs prior 90 days: 1.82x; class: watch
+Stars: 27713; last 90 days vs prior 90 days: 1.89x; class: watch
 
 Gaurav-Gosain/tuios (Go)
 https://github.com/Gaurav-Gosain/tuios
 A terminal window manager that knows what your agents are doing. Tiling panes, workspaces, sessions that survive restarts, and one Inbox for every co…
-Stars: 6781; surge test: unmeasurable_small_base; class: watch
+Stars: 6829; surge test: unmeasurable_small_base; class: watch
 
 hypit-ai/hypit (TypeScript)
 https://github.com/hypit-ai/hypit
 Clone any viral video with AI agents. Not just a script, the whole workflow: swap the face, the words, the B-roll, ship 100 variants in one command,…
-Stars: 31331; surge test: too_young; class: watch
+Stars: 31566; surge test: too_young; class: watch
 
 Showing 8 of 17 tracked repos.

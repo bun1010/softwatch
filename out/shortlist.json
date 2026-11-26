@@ -16,9 +16,9 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 47495,
-    "ratio90": 1.4651225204200702,
-    "share90": 0.2962511177751615,
+    "stars": 47577,
+    "ratio90": 1.4479599273509711,
+    "share90": 0.2953191469276834,
     "artifacts_new_120d": 122,
     "domains_90d": []
   },
@@ -39,7 +39,7 @@
       "acceleration_unavailable"
     ],
     "surge_status": "unavailable",
-    "stars": 20338,
+    "stars": 21889,
     "ratio90": null,
     "share90": null,
     "artifacts_new_120d": 109,
@@ -62,9 +62,9 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 11262,
-    "ratio90": 0.9462393835916296,
-    "share90": 0.15298950294101685,
+    "stars": 11274,
+    "ratio90": 0.9584201119628968,
+    "share90": 0.15309331741511412,
     "artifacts_new_120d": 29,
     "domains_90d": []
   },
@@ -86,7 +86,7 @@
       "unmeasurable_small_base"
     ],
     "surge_status": "unmeasurable_small_base",
-    "stars": 6811,
+    "stars": 6829,
     "ratio90": null,
     "share90": null,
     "artifacts_new_120d": 25,
@@ -109,9 +109,9 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 266054,
-    "ratio90": 0.6316929683513229,
-    "share90": 0.15479445913786286,
+    "stars": 266317,
+    "ratio90": 0.6331070485911584,
+    "share90": 0.15336936953941768,
     "artifacts_new_120d": 124,
     "domains_90d": []
   },
@@ -132,10 +132,10 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 15049,
-    "ratio90": 2.748481869959203,
-    "share90": 0.48162101486738357,
-    "artifacts_new_120d": 72,
+    "stars": 15217,
+    "ratio90": 2.8495958509200245,
+    "share90": 0.4874323584075,
+    "artifacts_new_120d": 68,
     "domains_90d": []
   },
   {
@@ -155,10 +155,10 @@
       "acceleration_unavailable"
     ],
     "surge_status": "unavailable",
-    "stars": 31491,
+    "stars": 31566,
     "ratio90": null,
     "share90": null,
-    "artifacts_new_120d": 101,
+    "artifacts_new_120d": 102,
     "domains_90d": []
   },
   {
@@ -178,9 +178,9 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 27672,
-    "ratio90": 1.8776942355889732,
-    "share90": 0.19444450998319981,
+    "stars": 27713,
+    "ratio90": 1.8914088556641735,
+    "share90": 0.1940127143498586,
     "artifacts_new_120d": 103,
     "domains_90d": []
   },
@@ -201,9 +201,9 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 39057,
-    "ratio90": 3.197032401332392,
-    "share90": 0.22418971623257272,
+    "stars": 39095,
+    "ratio90": 3.219527889728051,
+    "share90": 0.22429363654680298,
     "artifacts_new_120d": 112,
     "domains_90d": []
   },
@@ -224,9 +224,9 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 32912,
-    "ratio90": 2.9683962001078257,
-    "share90": 0.3767354895099478,
+    "stars": 32988,
+    "ratio90": 2.9540899341764684,
+    "share90": 0.37696186666292936,
     "artifacts_new_120d": 100,
     "domains_90d": []
   }
