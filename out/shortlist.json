@@ -16,9 +16,9 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 47577,
-    "ratio90": 1.4479599273509711,
-    "share90": 0.2953191469276834,
+    "stars": 47640,
+    "ratio90": 1.4911178898259456,
+    "share90": 0.29410154749510276,
     "artifacts_new_120d": 122,
     "domains_90d": []
   },
@@ -39,10 +39,10 @@
       "acceleration_unavailable"
     ],
     "surge_status": "unavailable",
-    "stars": 21889,
+    "stars": 23166,
     "ratio90": null,
     "share90": null,
-    "artifacts_new_120d": 109,
+    "artifacts_new_120d": 111,
     "domains_90d": []
   },
   {
@@ -61,10 +61,10 @@
       "velocity_unavailable",
       "acceleration_unavailable"
     ],
-    "surge_status": "measured",
-    "stars": 11274,
-    "ratio90": 0.9584201119628968,
-    "share90": 0.15309331741511412,
+    "surge_status": "unavailable",
+    "stars": 11284,
+    "ratio90": null,
+    "share90": null,
     "artifacts_new_120d": 29,
     "domains_90d": []
   },
@@ -86,7 +86,7 @@
       "unmeasurable_small_base"
     ],
     "surge_status": "unmeasurable_small_base",
-    "stars": 6829,
+    "stars": 6840,
     "ratio90": null,
     "share90": null,
     "artifacts_new_120d": 25,
@@ -109,9 +109,9 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 266317,
-    "ratio90": 0.6331070485911584,
-    "share90": 0.15336936953941768,
+    "stars": 266586,
+    "ratio90": 0.6222758887171559,
+    "share90": 0.15198898938227515,
     "artifacts_new_120d": 124,
     "domains_90d": []
   },
@@ -132,10 +132,10 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 15217,
-    "ratio90": 2.8495958509200245,
-    "share90": 0.4874323584075,
-    "artifacts_new_120d": 68,
+    "stars": 15383,
+    "ratio90": 2.879340853793409,
+    "share90": 0.4914197764115706,
+    "artifacts_new_120d": 70,
     "domains_90d": []
   },
   {
@@ -155,33 +155,10 @@
       "acceleration_unavailable"
     ],
     "surge_status": "unavailable",
-    "stars": 31566,
+    "stars": 31657,
     "ratio90": null,
     "share90": null,
     "artifacts_new_120d": 102,
-    "domains_90d": []
-  },
-  {
-    "full_name": "promptfoo/promptfoo",
-    "class": "watch",
-    "score": 40.0,
-    "reason": "score",
-    "components": {
-      "velocity": 0.0,
-      "acceleration": 0.0,
-      "switching": 25,
-      "substance": 15,
-      "confirmation": 0.0
-    },
-    "flags": [
-      "velocity_unavailable",
-      "acceleration_unavailable"
-    ],
-    "surge_status": "measured",
-    "stars": 27713,
-    "ratio90": 1.8914088556641735,
-    "share90": 0.1940127143498586,
-    "artifacts_new_120d": 103,
     "domains_90d": []
   },
   {
@@ -201,9 +178,9 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 39095,
-    "ratio90": 3.219527889728051,
-    "share90": 0.22429363654680298,
+    "stars": 39133,
+    "ratio90": 3.283810378759105,
+    "share90": 0.22440216991184603,
     "artifacts_new_120d": 112,
     "domains_90d": []
   },
@@ -224,9 +201,9 @@
       "acceleration_unavailable"
     ],
     "surge_status": "measured",
-    "stars": 32988,
-    "ratio90": 2.9540899341764684,
-    "share90": 0.37696186666292936,
+    "stars": 33118,
+    "ratio90": 3.014930431344492,
+    "share90": 0.37781855828283706,
     "artifacts_new_120d": 100,
     "domains_90d": []
   }

@@ -1,9 +1,9 @@
 {
-  "run_id": "20261126T1701",
-  "finished_at": "2026-11-26T17:01:30Z",
+  "run_id": "20261127T1647",
+  "finished_at": "2026-11-27T16:47:09Z",
   "ok": true,
   "canary_ok": true,
-  "canary_value": 107,
+  "canary_value": 101,
   "repos_measured": 17,
   "alerts": [],
   "budget_used": {
@@ -13,7 +13,9 @@
   },
   "errors": [
     "BaaRai/ARTEX: surge measurement failed (no year label to anchor the date axis)",
+    "CyberTimon/RapidRAW: surge measurement failed (star-history CyberTimon/RapidRAW: HTTP 403)",
     "hypit-ai/hypit: surge measurement failed (no year label to anchor the date axis)",
-    "meta/astryx: surge measurement failed (no year label to anchor the date axis)"
+    "meta/astryx: surge measurement failed (no year label to anchor the date axis)",
+    "promptfoo/promptfoo: surge measurement failed (star-history promptfoo/promptfoo: HTTP 403)"
   ]
 }
